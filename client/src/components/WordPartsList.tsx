@@ -1,12 +1,12 @@
 import {FC, useEffect, useState} from "react";
 import {WordPart} from "../types/WordPart.ts";
-import LargeWordPart from "./LargeWordPart.tsx";
+import WordPartDetail from "./WordPartDetail.tsx";
 
 interface WordPartsViewProps {
   levelId: string;
 }
 
-const WordPartsView: FC<WordPartsViewProps> = ({levelId}) => {
+const WordPartsList: FC<WordPartsViewProps> = ({levelId}) => {
   const [wordParts, setWordParts] = useState<WordPart[]>([]);
   const [selectedWordPart, setSelectedWordPart] = useState<WordPart | null>(null);
 
@@ -44,9 +44,9 @@ const WordPartsView: FC<WordPartsViewProps> = ({levelId}) => {
       ))}
       <hr/>
       {selectedWordPart &&
-        <LargeWordPart wordPart={selectedWordPart} onNeedsWork={handleNeedsWork} onMastered={handleMastered}/>}
+        <WordPartDetail wordPart={selectedWordPart} onNeedsWork={handleNeedsWork} onMastered={handleMastered}/>}
     </div>
   );
 };
 
-export default WordPartsView;
+export default WordPartsList;

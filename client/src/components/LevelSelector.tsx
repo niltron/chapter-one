@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import WordPartsView from "./WordPartsView.tsx";
+import WordPartsList from "./WordPartsList.tsx";
 import {Level} from "../types/Level.ts";
 
 /** A component that displays a level selector, whose values are loaded from the /phonics_levels endpoint.
@@ -38,7 +38,7 @@ const LevelSelector = () => {
         ))}
       </select>
       <hr />
-      {level && <WordPartsView levelId={level} />}
+      {level && <WordPartsList levelId={level} />}
     </div>
   );
 }

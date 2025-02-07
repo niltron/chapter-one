@@ -7,7 +7,7 @@ interface LargeWordPartProps {
   onMastered: () => void;
 }
 
-const LargeWordPart: FC<LargeWordPartProps> = ({wordPart, onNeedsWork, onMastered}) => {
+const WordPartDetail: FC<LargeWordPartProps> = ({wordPart, onNeedsWork, onMastered}) => {
   return (
     <div className="w-full flex flex-col gap-6 justify-center items-center mt-8">
     <span data-testid="largeWordPart" className="text-6xl">
@@ -21,4 +21,4 @@ const LargeWordPart: FC<LargeWordPartProps> = ({wordPart, onNeedsWork, onMastere
   );
 };
 
-export default LargeWordPart;
+export default WordPartDetail;
