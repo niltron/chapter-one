@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
 import WordPartsView from "./WordPartsView.tsx";
+import {Level} from "../types/Level.ts";
 
 /** A component that displays a level selector, whose values are loaded from the /phonics_levels endpoint.
  * The current level default to null, and is updated when the user selects a new level.
  * That new level then triggers a fetch to the /phonics_levels/:id/word_parts endpoint, which is used to update the content of the page.
  */
 const LevelSelector = () => {
-  const [levels, setLevels] = useState<{ id: number; name: string }[]>([]);
+  const [levels, setLevels] = useState<Level[]>([]);
   const [level, setLevel] = useState<string>("");
 
   useEffect(() => {
@@ -14,24 +15,25 @@ const LevelSelector = () => {
     fetch("/phonics_levels")
       .then((response) => response.json())
       .then((data) => {
-        setLevels(data.map((level: {id: number, level_number: string}) => ({ id: level.id, name: level.level_number })));
+        setLevels(data as Level[]);
       })
       .catch((error) => { console.error("Error fetching levels", error); });
   }, []);
 
   return (
     <div>
-      <h1>Phonics Level</h1>
+      <h1 className="text-2xl my-4">Phonics Level</h1>
       <select
         value={level}
         onChange={(e) => {
           setLevel(e.target.value);
         }}
+        className="w-full mb-4"
       >
         <option value="">Select a level</option>
         {levels.map((level) => (
           <option value={level.id} key={level.id}>
-            Level {level.name}
+            Level {level.level_number}
           </option>
         ))}
       </select>

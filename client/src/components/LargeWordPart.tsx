@@ -3,12 +3,20 @@ import {FC} from "react";
 
 interface LargeWordPartProps {
   wordPart: WordPart;
+  onNeedsWork: () => void;
+  onMastered: () => void;
 }
 
-const LargeWordPart: FC<LargeWordPartProps> = ({wordPart}) => {
+const LargeWordPart: FC<LargeWordPartProps> = ({wordPart, onNeedsWork, onMastered}) => {
   return (
-    <div data-testid="largeWordPart">
+    <div className="w-full flex flex-col gap-6 justify-center items-center mt-8">
+    <span data-testid="largeWordPart" className="text-6xl">
       {wordPart.label}
+    </span>
+      <div className="flex flex-row w-full justify-between my-4">
+        <button type="button" onClick={onNeedsWork} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-green-600">Needs work</button>
+        <button type="button" onClick={onMastered} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Got it!</button>
+      </div>
     </div>
   );
 };
