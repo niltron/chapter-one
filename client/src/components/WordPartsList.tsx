@@ -4,13 +4,13 @@ import WordPartDetail from "./WordPartDetail";
 import { useWordPartMut, useWordParts } from "../queries/wordPart.query";
 
 interface WordPartsViewProps {
-  levelId: string;
+  levelId: number;
 }
 
 export default function WordPartsList({ levelId }: WordPartsViewProps) {
   const [wordParts, setWordParts] = useState<WordPart[]>([]);
   const [selectedWordPart, setSelectedWordPart] = useState<WordPart | null>(null);
-  const { data, isLoading, isError, error, isSuccess } = useWordParts(Number(levelId));
+  const { data, isLoading, isError, error, isSuccess } = useWordParts(levelId);
   const { mutate, isError: isErrorMutation } = useWordPartMut();
 
   if (isSuccess && data) {

@@ -8,7 +8,7 @@ import { useLevels } from "../queries/levels.query";
  * That new level then triggers a fetch to the /phonics_levels/:id/word_parts endpoint, which is used to update the content of the page.
  */
 export default function LevelSelector() {
-  const [level, setLevel] = useState<string>("");
+  const [level, setLevel] = useState<number | null>(null);
   const [levels, setLevels] = useState<Level[]>([]);
   const { data, isLoading, isError, error, isSuccess } = useLevels();
 
@@ -16,8 +16,8 @@ export default function LevelSelector() {
     setLevels(data);
   }
 
-  const handleLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLevel(e.target.value);
+  const handleLevelChange = (level: number) => {
+    setLevel(level);
   }
 
   return (
@@ -32,21 +32,15 @@ export default function LevelSelector() {
         <div>No levels found.</div>
       )}
 
-      {levels.length > 0 &&
-        <select
-          value={level}
-          onChange={handleLevelChange}
-          className="w-full mb-4"
-        >
-          <option value="">Select a level</option>
-          {levels.map((level) => (
-            <option value={level.id} key={level.id}>
-              Level {level.level_number}
-            </option>
-          ))}
-        </select>}
+      {levels.length > 0 && <div>
+        <h2 className="text-xl mb-4">Selected Level:</h2>
+        {levels.map((item) => {
+          return (<button key={item.id} type="button"
+            className={`mr-2 mb-2 px-2 py-1 border rounded hover:bg-gray-200 cursor-pointer ${(level != null && level >= item.id) ? 'bg-blue-600 text-white' : ''}`}
+            onClick={() => handleLevelChange(item.id)}>{item.id}</button>)
+        })}
+      </div>}
       <hr />
-
       {level && <WordPartsList levelId={level} />}
     </div>
   );
