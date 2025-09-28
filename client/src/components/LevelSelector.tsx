@@ -1,19 +1,23 @@
 import { useState } from "react";
 import WordPartsList from "./WordPartsList";
 import { Level } from "../types/Level";
-import { useLevels } from "../queries/levels";
+import { useLevels } from "../queries/levels.query";
 
 /** A component that displays a level selector, whose values are loaded from the /phonics_levels endpoint.
  * The current level default to null, and is updated when the user selects a new level.
  * That new level then triggers a fetch to the /phonics_levels/:id/word_parts endpoint, which is used to update the content of the page.
  */
-const LevelSelector = () => {
+export default function LevelSelector() {
   const [level, setLevel] = useState<string>("");
   const [levels, setLevels] = useState<Level[]>([]);
   const { data, isLoading, isError, error, isSuccess } = useLevels();
 
   if (isSuccess && data && levels.length === 0) {
     setLevels(data);
+  }
+
+  const handleLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLevel(e.target.value);
   }
 
   return (
@@ -31,9 +35,7 @@ const LevelSelector = () => {
       {levels.length > 0 &&
         <select
           value={level}
-          onChange={(e) => {
-            setLevel(e.target.value);
-          }}
+          onChange={handleLevelChange}
           className="w-full mb-4"
         >
           <option value="">Select a level</option>
@@ -49,5 +51,3 @@ const LevelSelector = () => {
     </div>
   );
 }
-
-export default LevelSelector;
