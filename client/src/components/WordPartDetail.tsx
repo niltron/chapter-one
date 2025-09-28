@@ -1,5 +1,4 @@
-import { WordPart } from "../types/WordPart.ts";
-import { FC } from "react";
+import { WordPart } from "../types/WordPart";
 
 interface LargeWordPartProps {
   wordPart: WordPart;
@@ -7,7 +6,7 @@ interface LargeWordPartProps {
   onMastered: () => void;
 }
 
-const WordPartDetail: FC<LargeWordPartProps> = ({ wordPart, onNeedsWork, onMastered }) => {
+export default function WordPartDetail({ wordPart, onNeedsWork, onMastered }: LargeWordPartProps) {
   return (
     <div className="w-full flex flex-col gap-6 justify-center items-center mt-8">
       <span data-testid="largeWordPart" className="text-6xl">
@@ -18,7 +17,5 @@ const WordPartDetail: FC<LargeWordPartProps> = ({ wordPart, onNeedsWork, onMaste
         <button type="button" onClick={onMastered} className="w-[120px] px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Got it!</button>
       </div>
     </div>
-  );
-};
-
-export default WordPartDetail;
+  )
+}

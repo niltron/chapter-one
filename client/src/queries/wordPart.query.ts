@@ -27,7 +27,7 @@ export const fetchWordParts = async (levelId: number): Promise<WordPart[]> => {
  */
 export const useWordParts = (levelId: number) =>
     useQuery<WordPart[]>({
-        queryKey: ['WORD_PARTS', levelId],
+        queryKey: [`WORD_PARTS_${levelId}`],
         queryFn: () => fetchWordParts(levelId),
     });
 

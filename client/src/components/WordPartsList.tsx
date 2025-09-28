@@ -13,8 +13,21 @@ export default function WordPartsList({ levelId }: WordPartsViewProps) {
   const { data, isLoading, isError, error, isSuccess } = useWordParts(Number(levelId));
   const { mutate, isError: isErrorMutation } = useWordPartMut();
 
-  if (isSuccess && data && wordParts.length === 0) {
-    setWordParts(data);
+  if (isSuccess && data) {
+    // on level change, clear word parts if no data
+    if (data.length === 0 && wordParts.length > 0) {
+      setWordParts([]);
+      setSelectedWordPart(null);
+    }
+    // on initial load, set word parts
+    else if (data.length > 0 && wordParts.length === 0) {
+      setWordParts(data);
+    }
+    // on level change, reset word parts and selected word part
+    else if (data.length > 0 && wordParts.length > 0 && data[0].id !== wordParts[0].id) {
+      setWordParts(data);
+      setSelectedWordPart(null);
+    }
   }
 
   const handleWordPartClick = (wordPartId: number) => {
@@ -29,7 +42,7 @@ export default function WordPartsList({ levelId }: WordPartsViewProps) {
   const handleNeedsWork = () => {
     mutate({
       ...selectedWordPart!,
-      status: "needs_practice"
+      status: "needs_work"
     }, {
       onSuccess: handleActionCallback,
     });
@@ -52,15 +65,13 @@ export default function WordPartsList({ levelId }: WordPartsViewProps) {
 
       {isError && <div>Error: {(error as Error).message}</div>}
 
-
-
       {!isLoading && !isError && wordParts.length === 0 && (
         <div>No word parts found for this level.</div>
       )}
 
       {wordParts.map((wordPart) => (
         <button key={wordPart.id} type="button"
-          className="mr-2 mb-2 px-2 py-1 border rounded hover:bg-gray-200 cursor-pointer"
+          className={`mr-2 mb-2 px-2 py-1 border rounded hover:bg-gray-200 cursor-pointer ${wordPart.status === 'mastered' ? 'bg-green-600 text-white' : ''} ${wordPart.status === 'needs_work' ? 'bg-red-500 text-white' : ''}`}
           onClick={() => handleWordPartClick(wordPart.id)}>{wordPart.label}</button>
       ))}
 
