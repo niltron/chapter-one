@@ -29,7 +29,7 @@ When the user clicks either of the buttons, the app should:
 * send a request to the server to record the user's response.
 
 The endpoint to update the server does not exist yet. You should create one that records the user's response in the
-`ststus` field of the relevant word part record.
+`status` field of the relevant word part record.
 
 When refreshing the page or selecting a different level, the app should correctly colour the user's responses in the
 list of word parts.
